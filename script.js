@@ -22,6 +22,7 @@ addEventListener('resize', () => {
     canvas.height = innerHeight
 
     init()
+    cancelAnimationFrame(animationId)
 })
 
 // utility functions
@@ -30,6 +31,15 @@ function randomIntFromRange(min, max) {
 }
 
 // objects
+class Player {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.velocity = velocity
+    }
+}
 class Pipe {
     constructor(x, y, width, height, color, velocity) {
         this.x = x
@@ -48,22 +58,35 @@ class Pipe {
 
     update() {
         this.draw()
+
+        // update position
+        this.x += this.velocity.x
     }
 }
 
 // implementation
+let player
 let pipes
+let score
+let timer
+let pipeSpawnSpeed
 
 function init() {
+    player = new player()
     pipes = []
-    for (let j = 0; j < 50; j++) {
-        pipes.push(new Pipe(x, y, dx, dy, radius))
-    }
+    pipeSpawnSpeed = 2000
+}
+
+function spawnPipes() {
+    timer = setInterval(() => {
+
+    }, pipeSpawnSpeed)
 }
 
 // animation loop
+let animationId
 function animate() {
-    requestAnimationFrame(animate)
+    animationId = requestAnimationFrame(animate)
 
     ctx.clearRect(0, 0, innerWidth, innerHeight)
 
@@ -74,3 +97,4 @@ function animate() {
 
 init()
 animate()
+spawnPipes()
