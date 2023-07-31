@@ -14,6 +14,11 @@ const mouse = {
     y: undefined,
 }
 const GRAVITY = 0.1
+const dieSoundEffect = new Audio('Media/die-sound-effect.mp3')
+const scoreSoundEffect = new Audio('Media/point-sound-effect.mp3')
+const flapSoundEffect = new Audio('Media/flap-sound-effect.mp3')
+const hitSoundEffect = new Audio ('Media/hit-sound-effect.mp3')
+const swooshSoundEffect = new Audio ('Media/swoosh-sound-effect.mp3')
 
 // event listeners
 addEventListener('mousemove', (event) => {
@@ -36,13 +41,14 @@ function randomIntFromRange(min, max) {
 
 // objects
 class Player {
-    constructor(x, y, radius, color, velocity, flapStrength) {
+    constructor(x, y, radius, color, velocity, flapStrength, isAlive) {
         this.x = x
         this.y = y
         this.radius = radius
         this.color = color
         this.velocity = velocity
         this.flapStrength = flapStrength
+        this.isAlive = isAlive
     }
 
     draw() {
@@ -66,14 +72,14 @@ class Player {
     }
 }
 class Pipe {
-    constructor(x, y, width, height, color, velocity, passed) {
+    constructor(x, y, width, height, color, velocity, isPassed) {
         this.x = x
         this.y = y
         this.width = width
         this.height = height
         this.color = color
         this.velocity = velocity
-        this.passed = passed
+        this.isPassed = isPassed
     }
 
     draw() {
@@ -103,7 +109,7 @@ let pipeGap
 let pointOnRect
 
 function init() {
-    player = new Player(canvas.width / 2, canvas.height / 2, 35, '#ffdd1f', {y: 0}, -5)
+    player = new Player(canvas.width / 2, canvas.height / 2, 35, '#ffdd1f', {y: 0}, -5, true)
     pipes = []
     score = 0
     pipeSpawnSpeed = 3000
@@ -151,6 +157,7 @@ function clamp(min, max, value) {
 
 function gameOver() {
     cancelAnimationFrame(animationId)
+    player.isAlive = false
 }
 
 // animation loop
@@ -165,13 +172,12 @@ function animate() {
         pipe.update()
 
         // increment score
-        if (!pipe.passed && player.x > pipe.x +pipe.width) {
+        if (!pipe.isPassed && player.x > pipe.x +pipe.width) {
             score += 0.5
             scoreEl.innerHTML = score
-            pipe.passed = true
+            pipe.isPassed = true
             
             // play score sound effect
-            const scoreSoundEffect = new Audio('Media/point-sound-effect.mp3')
             scoreSoundEffect.volume = 0.2
             scoreSoundEffect.play()
         }
@@ -181,12 +187,30 @@ function animate() {
         pointOnRect.y = clamp(pipe.y, pipe.y + pipe.height, player.y)
         if (Math.hypot(player.x - pointOnRect.x, player.y - pointOnRect.y) - player.radius <= 0) {
             gameOver()
-        }
+        
+            // play pipe collision sound effects
+            hitSoundEffect.volume = 0.2
+            swooshSoundEffect.volume = 0.2
+            dieSoundEffect.volume = 0.1
+            hitSoundEffect.play()
+            setTimeout(() => {
+                swooshSoundEffect.play()
+                dieSoundEffect.play()
+            }, 500)
+            }
     })
 
     // player ground collision
     if (player.y + player.radius >= canvas.height) {
         gameOver()
+
+        // play death sound effects
+        hitSoundEffect.volume = 0.2
+        swooshSoundEffect.volume = 0.2
+        hitSoundEffect.play()
+        setTimeout(() => {
+            swooshSoundEffect.play()
+        }, 500)
     }
 }
 
@@ -197,4 +221,10 @@ spawnPipes()
 // flapping logic
 addEventListener('click', () => {
     player.velocity.y = player.flapStrength
+
+    // play flap sound effect
+    flapSoundEffect.volume = 0.2
+    if (player.isAlive) {
+        flapSoundEffect.play()
+    }
 })
