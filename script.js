@@ -124,7 +124,7 @@ function init() {
     pipes = []
     score = 0
     pipeSpawnSpeed = 2000
-    pipeGap = 250
+    pipeGap = 205
     pointOnRect = {
         x: null,
         y: null,
