@@ -152,7 +152,7 @@ function spawnPipes() {
         const topPipe = {
             width: 90,
             height: canvas.height - pipeGap,
-            x: canvas.width + 75,
+            x: canvas.width,
             y: -(canvas.height - pipeGap) * Math.random(),
             color: '#18770d',
             velocity: {x: -1.5}
