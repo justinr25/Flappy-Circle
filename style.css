@@ -6,4 +6,6 @@ body {
 
 #gameCanvas {
     display: block;
+    background: url("Media/flappy-bird-bg-img.jpg") no-repeat center center fixed;
+    background-size: cover;
 }

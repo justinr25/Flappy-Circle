@@ -75,6 +75,8 @@ class Pipe {
     draw() {
         ctx.beginPath()
         ctx.rect(this.x, this.y, this.width, this.height)
+        ctx.lineWidth = 4
+        ctx.stroke()
         ctx.fillStyle = this.color
         ctx.fill()
     }
@@ -93,23 +95,36 @@ let pipes
 let score
 let timer
 let pipeSpawnSpeed
+let pipeGap
 
 function init() {
-    player = new Player(canvas.width / 2, canvas.height / 2, 40, '#ffdd1f', {y: 0}, -5)
+    player = new Player(canvas.width / 2, canvas.height / 2, 35, '#ffdd1f', {y: 0}, -5)
     pipes = []
-    pipeSpawnSpeed = 2000
+    pipeSpawnSpeed = 3000
+    pipeGap = 350
 }
 
 function spawnPipes() {
     timer = setInterval(() => {
-        const width = 60
-        const height = canvas.height / 2
-        const x = canvas.width + width
-        const y = 0
-        const color = '#18770d'
-        const velocity = {x: -1.5}
+        const topPipe = {
+            width: 75,
+            height: canvas.height - pipeGap,
+            x: canvas.width + 75,
+            y: -(canvas.height - pipeGap) * Math.random(),
+            color: '#18770d',
+            velocity: {x: -1.5}
+        }
+        const bottomPipe = {
+            width: topPipe.width,
+            height: topPipe.height,
+            x: topPipe.x,
+            y: topPipe.y + topPipe.height + pipeGap,
+            color: topPipe.color,
+            velocity: topPipe.velocity
+        }
 
-        pipes.push(new Pipe(x, y, width, height, color, velocity))
+        pipes.push(new Pipe(topPipe.x, topPipe.y, topPipe.width, topPipe.height, topPipe.color, topPipe.velocity))
+        pipes.push(new Pipe(bottomPipe.x, bottomPipe.y, bottomPipe.width, bottomPipe.height, bottomPipe.color, bottomPipe.velocity))
     }, pipeSpawnSpeed)
 }
 
@@ -123,6 +138,8 @@ function animate() {
     player.update()
     for (let j = 0; j < pipes.length; j++) {
         pipes[j].update()
+
+        // player pipe collision
     }
     console.log(pipes)
 }
