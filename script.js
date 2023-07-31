@@ -118,11 +118,11 @@ let pipeGap
 let pointOnRect
 
 function init() {
-    player = new Player(canvas.width / 2, canvas.height / 2, 35, '#ffdd1f', {y: 0}, -5, true)
+    player = new Player(canvas.width / 2, canvas.height / 2, 30, '#ffdd1f', {y: 0}, -5, true)
     pipes = []
     score = 0
-    pipeSpawnSpeed = 3000
-    pipeGap = 300
+    pipeSpawnSpeed = 2000
+    pipeGap = 275
     pointOnRect = {
         x: null,
         y: null,
