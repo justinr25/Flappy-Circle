@@ -96,12 +96,17 @@ let score
 let timer
 let pipeSpawnSpeed
 let pipeGap
+let pointOnRect
 
 function init() {
     player = new Player(canvas.width / 2, canvas.height / 2, 35, '#ffdd1f', {y: 0}, -5)
     pipes = []
     pipeSpawnSpeed = 3000
     pipeGap = 350
+    pointOnRect = {
+        x: null,
+        y: null,
+    }
 }
 
 function spawnPipes() {
@@ -128,6 +133,20 @@ function spawnPipes() {
     }, pipeSpawnSpeed)
 }
 
+function clamp(min, max, value) {
+    if (value < min) {
+        return min
+    } else if (value > max) {
+        return max
+    } else {
+        return value
+    }
+}
+
+function gameOver() {
+    cancelAnimationFrame(animationId)
+}
+
 // animation loop
 let animationId
 function animate() {
@@ -136,12 +155,21 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight)
 
     player.update()
-    for (let j = 0; j < pipes.length; j++) {
-        pipes[j].update()
+    pipes.forEach((pipe, index) => {
+        pipe.update()
 
         // player pipe collision
+        pointOnRect.x = clamp(pipe.x, pipe.x + pipe.width, player.x)
+        pointOnRect.y = clamp(pipe.y, pipe.y + pipe.height, player.y)
+        if (Math.hypot(player.x - pointOnRect.x, player.y - pointOnRect.y) - player.radius <= 0) {
+            gameOver()
+        }
+    })
+
+    // player ground collision
+    if (player.y + player.radius >= canvas.height) {
+        gameOver()
     }
-    console.log(pipes)
 }
 
 init()
