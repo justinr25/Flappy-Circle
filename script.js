@@ -12,11 +12,13 @@ const startGameBtn = document.querySelector('#startGameBtn')
 const startGameContainer = document.querySelector('#startGameContainer')
 
 // variables
+const GAME_SPEED = 60
+let lastRenderTime = 0
 const mouse = {
     x: undefined,
     y: undefined,
 }
-const GRAVITY = 0.1
+const GRAVITY = 1
 const dieSoundEffect = new Audio('Media/die-sound-effect.mp3')
 const scoreSoundEffect = new Audio('Media/point-sound-effect.mp3')
 const flapSoundEffect = new Audio('Media/flap-sound-effect.mp3')
@@ -118,11 +120,11 @@ let pipeGap
 let pointOnRect
 
 function init() {
-    player = new Player(canvas.width / 2, canvas.height / 2, 30, '#ffdd1f', {y: 0}, -5, true)
+    player = new Player(canvas.width / 2, canvas.height / 2, 30, '#ffdd1f', {y: 0}, -15, true)
     pipes = []
     score = 0
     pipeSpawnSpeed = 2000
-    pipeGap = 275
+    pipeGap = 250
     pointOnRect = {
         x: null,
         y: null,
@@ -155,7 +157,7 @@ function spawnPipes() {
             x: canvas.width,
             y: -(canvas.height - pipeGap) * Math.random(),
             color: '#18770d',
-            velocity: {x: -1.5}
+            velocity: {x: -4.5}
         }
         const bottomPipe = {
             width: topPipe.width,
@@ -172,19 +174,19 @@ function spawnPipes() {
 }
 
 function clamp(min, max, value) {
-    if (value < min) {
-        return min
-    } else if (value > max) {
-        return max
-    } else {
-        return value
-    }
+    if (value < min) return min
+    else if (value > max) return max
+    else return value
 }
 
 // animation loop
 let animationId
-function animate() {
+function animate(currentTime) {
     animationId = requestAnimationFrame(animate)
+
+    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
+    if (secondsSinceLastRender < 1 / GAME_SPEED) return
+    lastRenderTime = currentTime
 
     ctx.clearRect(0, 0, innerWidth, innerHeight)
 
@@ -226,8 +228,6 @@ function animate() {
     if (player.y + player.radius >= canvas.height) {
         gameOver()
     }
-
-    console.log(pipes)
 }
 
 // flapping logic
