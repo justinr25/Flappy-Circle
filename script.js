@@ -75,7 +75,8 @@ class Pipe {
     draw() {
         ctx.beginPath()
         ctx.rect(this.x, this.y, this.width, this.height)
-        ctx.fillStyle = '#18770d'
+        ctx.fillStyle = this.color
+        ctx.fill()
     }
 
     update() {
@@ -101,7 +102,14 @@ function init() {
 
 function spawnPipes() {
     timer = setInterval(() => {
+        const width = 60
+        const height = canvas.height / 2
+        const x = canvas.width + width
+        const y = 0
+        const color = '#18770d'
+        const velocity = {x: -1.5}
 
+        pipes.push(new Pipe(x, y, width, height, color, velocity))
     }, pipeSpawnSpeed)
 }
 
@@ -116,6 +124,7 @@ function animate() {
     for (let j = 0; j < pipes.length; j++) {
         pipes[j].update()
     }
+    console.log(pipes)
 }
 
 init()
