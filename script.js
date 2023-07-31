@@ -189,7 +189,7 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight)
 
     player.update()
-    pipes.forEach((pipe, index) => {
+    pipes.forEach((pipe) => {
         pipe.update()
 
         // increment score
@@ -208,6 +208,11 @@ function animate() {
         if (Math.hypot(player.x - pointOnRect.x, player.y - pointOnRect.y) - player.radius <= 0) {
             gameOver()
             }
+
+        // prevent player from going above pipes
+        if (player.y - player.radius <= 0 && player.x + player.radius >= pipe.x) {
+            gameOver()
+        }
     })
 
     // player ground collision
@@ -216,14 +221,10 @@ function animate() {
     }
 }
 
-// init()
-
 // flapping logic
 addEventListener('click', () => {
-    player.velocity.y = player.flapStrength
-
-    // play flap sound effect
     if (player.isAlive) {
+        player.velocity.y = player.flapStrength
         flapSoundEffect.play()
     }
 })
