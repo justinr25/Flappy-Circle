@@ -189,7 +189,7 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight)
 
     player.update()
-    pipes.forEach((pipe) => {
+    pipes.forEach((pipe, index) => {
         pipe.update()
 
         // increment score
@@ -213,12 +213,21 @@ function animate() {
         if (player.y - player.radius <= 0 && player.x + player.radius >= pipe.x) {
             gameOver()
         }
+
+        // remove pipe when off screen
+        if (pipe.x + pipe.width < 0) {
+            setTimeout(() => {
+                pipes.shift()
+            }, 0)
+        }
     })
 
     // player ground collision
     if (player.y + player.radius >= canvas.height) {
         gameOver()
     }
+
+    console.log(pipes)
 }
 
 // flapping logic
