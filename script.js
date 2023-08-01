@@ -13,11 +13,6 @@ const startGameContainer = document.querySelector('#startGameContainer')
 
 // variables
 const GAME_SPEED = 60
-let lastRenderTime = 0
-const mouse = {
-    x: undefined,
-    y: undefined,
-}
 const GRAVITY = 1
 const dieSoundEffect = new Audio('Media/die-sound-effect.mp3')
 const scoreSoundEffect = new Audio('Media/point-sound-effect.mp3')
@@ -29,12 +24,6 @@ scoreSoundEffect.volume = 0.2
 flapSoundEffect.volume = 0.2
 hitSoundEffect.volume = 0.2
 swooshSoundEffect.volume = 0.2
-
-// event listeners
-addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX
-    mouse.y = event.clientY
-})
 
 addEventListener('resize', () => {
     canvas.width = innerWidth
@@ -118,6 +107,8 @@ let timer
 let pipeSpawnSpeed
 let pipeGap
 let pointOnRect
+let bgColor
+let lastRenderTime
 
 function init() {
     player = new Player(canvas.width / 2, canvas.height / 2, 30, '#ffdd1f', {y: 0}, -15, true)
@@ -129,6 +120,8 @@ function init() {
         x: null,
         y: null,
     }
+    bgColor = 255
+    lastRenderTime = 0
     scoreEl.innerHTML = score
     scoreContainer.style.display = 'block'
     endScoreEl.innerHTML = score
@@ -140,11 +133,11 @@ function gameOver() {
     cancelAnimationFrame(animationId)
     clearInterval(timer)
     player.isAlive = false
-    scoreContainer.style.display = 'none'
-    endScoreEl.innerHTML = score
-    startGameContainer.style.display = 'flex'
     hitSoundEffect.play()
     setTimeout(() => {
+        scoreContainer.style.display = 'none'
+        endScoreEl.innerHTML = score
+        startGameContainer.style.display = 'flex'
         swooshSoundEffect.play()
     }, 500)
 }
