@@ -130,18 +130,18 @@ function init() {
 function gameOver() {
 	cancelAnimationFrame(animationId);
 	clearInterval(timer);
-	const hitSoundEffect = new Audio("media/hit-sound-effect.mp3");
+	const hitSoundEffect = new Audio("Media/hit-sound-effect.mp3");
 	hitSoundEffect.volume = 0.2;
 	hitSoundEffect.play();
 	setTimeout(() => {
 		scoreContainer.style.display = "none";
 		endScoreEl.innerHTML = score;
 		startGameContainer.style.display = "flex";
-		const swooshSoundEffect = new Audio("media/swoosh-sound-effect.mp3");
+		const swooshSoundEffect = new Audio("Media/swoosh-sound-effect.mp3");
 		swooshSoundEffect.volume = 0.2;
 		swooshSoundEffect.play();
 		if (player.y + player.radius < canvas.height) {
-			const dieSoundEffect = new Audio("media/die-sound-effect.mp3");
+			const dieSoundEffect = new Audio("Media/die-sound-effect.mp3");
 			dieSoundEffect.volume = 0.1;
 			dieSoundEffect.play();
 		}
@@ -220,7 +220,7 @@ function animate(currentTime) {
 			pipe.isPassed = true;
 
 			// play score sound effect
-			const scoreSoundEffect = new Audio("media/point-sound-effect.mp3");
+			const scoreSoundEffect = new Audio("Media/point-sound-effect.mp3");
 			scoreSoundEffect.volume = 0.2;
 			scoreSoundEffect.play();
 		}
@@ -262,7 +262,7 @@ function animate(currentTime) {
 addEventListener("click", () => {
 	if (player.isAlive) {
 		player.velocity.y = player.flapStrength;
-		const flapSoundEffect = new Audio("media/flap-sound-effect.mp3");
+		const flapSoundEffect = new Audio("Media/flap-sound-effect.mp3");
 		flapSoundEffect.volume = 0.2;
 		flapSoundEffect.play();
 	}
@@ -272,7 +272,7 @@ startGameBtn.addEventListener("click", () => {
 	init();
 	animate();
 	spawnPipes();
-	const swooshSoundEffect = new Audio("media/swoosh-sound-effect.mp3");
+	const swooshSoundEffect = new Audio("Media/swoosh-sound-effect.mp3");
 	swooshSoundEffect.volume = 0.2;
 	swooshSoundEffect.play();
 });
