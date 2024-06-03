@@ -1,62 +1,63 @@
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #gameCanvas {
-    display: block;
-    background: url("Media/flappy-bird-bg-img.jpg") no-repeat center center fixed;
-    background-size: cover;
+	display: block;
+	background: url("Media/flappy-bird-bg-img.jpg") no-repeat center center
+		fixed;
+	background-size: cover;
 }
 
 #scoreContainer {
-    position: fixed;
-    display: none;
-    padding: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: transparent;
-    color: white;
-    font-size: 5rem;
-    user-select: none;
+	position: fixed;
+	display: none;
+	padding: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	background: transparent;
+	color: white;
+	font-size: 5rem;
+	user-select: none;
 }
 
 #startGameContainer {
-    position: fixed;
-    display: flex;
-    inset: 0;
-    align-items: center;
-    justify-content: center;
+	position: fixed;
+	display: flex;
+	inset: 0;
+	align-items: center;
+	justify-content: center;
 }
 
 #startGameContent {
-    background-color: #ffebcd;
-    width: 50%;
-    padding: 3rem;
-    padding-top: 0;
-    border-radius: 100px;
+	background-color: #ffebcd;
+	width: 50%;
+	padding: 3rem;
+	padding-top: 0;
+	border-radius: 100px;
 }
 
 #endScoreEl {
-    font-size: 5rem;
-    text-align: center;
-    margin-bottom: 0;
+	font-size: 5rem;
+	text-align: center;
+	margin-bottom: 0;
 }
 
 #startGameText {
-    text-align: center;
-    color: #808080
+	text-align: center;
+	color: #808080;
 }
 
 #startGameBtn {
-    display:  solid;
-    width: 100%;
-    background-color: #d2691e;
-    border: solid black 1px;
-    border-radius: 30px;
-    font-size: 2rem;
-    font-style: bold;
-    padding: 1rem;
+	display: solid;
+	width: 100%;
+	background-color: #d2691e;
+	border: solid black 1px;
+	border-radius: 30px;
+	font-size: 2rem;
+	font-style: bold;
+	padding: 1rem;
 }
